@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QT Holidays - Tour Packages</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h1>QT Holidays</h1>
+        <p>Travel Management</p>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="../dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="flight.html"><i class="fas fa-plane"></i> Flight Ticket</a></li>
+        <li><a href="hotel.html"><i class="fas fa-hotel"></i> Hotel Reservation</a></li>
+        <li class="active"><a href="tour.html"><i class="fas fa-suitcase"></i> Tour Package</a></li>
+        <li><a href="forex.html"><i class="fas fa-exchange-alt"></i> Foreign Exchange</a></li>
+        <li><a href="wajibath.html"><i class="fas fa-scroll"></i> Wajibath</a></li>
+        <li><a href="car.html"><i class="fas fa-car"></i> Car Rental</a></li>
+        <li><a href="visa.html"><i class="fas fa-passport"></i> Visa</a></li>
+        <li><a href="train.html"><i class="fas fa-train"></i> Train Booking</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <button id="logoutBtn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="content-header">
+        <h1>Tour Package Management</h1>
+        <div class="user-info">
+          <span>Welcome, Admin</span>
+          <button class="toggle-sidebar"><i class="fas fa-bars"></i></button>
+        </div>
+      </header>
+
+      <!-- Stats Cards -->
+      <div class="stats-container">
+        <div class="stat-card primary">
+          <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+          <div class="stat-info">
+            <h3>Total Revenue</h3>
+            <p id="tourTotalRevenue">₹0</p>
+          </div>
+        </div>
+        <div class="stat-card secondary">
+          <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+          <div class="stat-info">
+            <h3>Total Cost</h3>
+            <p id="tourTotalCost">₹0</p>
+          </div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="stat-info">
+            <h3>Total Profit</h3>
+            <p id="tourTotalProfit">₹0</p>
+          </div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-icon"><i class="fas fa-suitcase"></i></div>
+          <div class="stat-info">
+            <h3>Total Packages</h3>
+            <p id="tourTotalBookings">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="action-bar">
+        <button id="addTourBtn" class="btn-primary"><i class="fas fa-plus"></i> Add New Tour Package</button>
+        <button id="downloadTourBtn" class="btn-secondary"><i class="fas fa-download"></i> Download as Excel</button>
+        <div class="search-container">
+          <input type="text" id="searchTour" placeholder="Search...">
+          <button class="btn-search"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+      <!-- Tour Packages List -->
+      <div class="data-container">
+        <div class="table-container">
+          <table id="tourTable">
+            <thead>
+              <tr>
+                <th>Destination</th>
+                <th>Travel Dates</th>
+                <th>Cost Price (₹)</th>
+                <th>Selling Price (₹)</th>
+                <th>Profit (₹)</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/Edit Tour Package Modal -->
+  <div id="tourModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2 id="modalTitle">Add New Tour Package</h2>
+      <form id="tourForm">
+        <input type="hidden" id="tourId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="destination">Destination (City, Country)</label>
+            <input type="text" id="destination" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="travelDate">Travel Date</label>
+            <input type="date" id="travelDate" required>
+          </div>
+          <div class="form-group">
+            <label for="returnDate">Return Date</label>
+            <input type="date" id="returnDate" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="costPrice">Cost Price (₹)</label>
+            <input type="number" id="costPrice" min="0" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="sellingPrice">Selling Price (₹)</label>
+            <input type="number" id="sellingPrice" min="0" step="0.01" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="details">Package Details</label>
+          <textarea id="details" placeholder="Includes visa, tickets, hotel, etc."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="notes">Additional Notes (Optional)</label>
+          <textarea id="notes"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Save</button>
+          <button type="button" class="btn-secondary close-modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content confirmation">
+      <h2>Confirm Deletion</h2>
+      <p>Are you sure you want to delete this tour package? This action cannot be undone.</p>
+      <div class="form-actions">
+        <button id="confirmDelete" class="btn-danger">Delete</button>
+        <button class="btn-secondary close-modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/sheets.js"></script>
+  <script src="../../js/services/tour.js"></script>
+</body>
+</html>
